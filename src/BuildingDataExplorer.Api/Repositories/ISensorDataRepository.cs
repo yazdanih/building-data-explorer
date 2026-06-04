@@ -15,5 +15,9 @@ public interface ISensorDataRepository
 
     Task<double> GetAverageElectricityAsync(int roomId, CancellationToken cancellationToken = default);
 
+    Task<IReadOnlyDictionary<int, RoomSensorAverages>> GetAveragesByRoomIdsAsync(
+        IReadOnlyList<int> roomIds,
+        CancellationToken cancellationToken = default);
+
     Task<SensorData> AddAsync(SensorData data, CancellationToken cancellationToken = default);
 }

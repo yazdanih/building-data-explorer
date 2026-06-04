@@ -21,19 +21,23 @@ public class RoomService : IRoomService
         CancellationToken cancellationToken = default)
     {
         var rooms = await _roomRepository.GetByBuildingIdAsync(buildingId, cancellationToken);
+        var roomIds = rooms.Select(r => r.Id).ToList();
+        var aggregates = await _sensorDataRepository.GetAveragesByRoomIdsAsync(roomIds, cancellationToken);
         var summaries = new List<RoomSummaryDto>();
 
         foreach (var room in rooms)
         {
-            var avgTemperature = await _sensorDataRepository.GetAverageTemperatureAsync(room.Id, cancellationToken);
-            var avgElectricity = await _sensorDataRepository.GetAverageElectricityAsync(room.Id, cancellationToken);
+            if (!aggregates.TryGetValue(room.Id, out var avg))
+            {
+                throw new InvalidOperationException("Sequence contains no elements.");
+            }
 
             summaries.Add(new RoomSummaryDto(
                 room.Id,
                 room.Name,
-                avgTemperature,
-                avgElectricity,
-                GetStatus(avgTemperature)));
+                avg.Temperature,
+                avg.Electricity,
+                GetStatus(avg.Temperature)));
         }
 
         return summaries;

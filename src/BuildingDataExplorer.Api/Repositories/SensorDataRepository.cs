@@ -57,6 +57,30 @@ public class SensorDataRepository : ISensorDataRepository
             .AverageAsync(s => s.Electricity, cancellationToken);
     }
 
+    public async Task<IReadOnlyDictionary<int, RoomSensorAverages>> GetAveragesByRoomIdsAsync(
+        IReadOnlyList<int> roomIds,
+        CancellationToken cancellationToken = default)
+    {
+        if (roomIds.Count == 0)
+        {
+            return new Dictionary<int, RoomSensorAverages>();
+        }
+
+        return await _context.SensorData
+            .Where(s => roomIds.Contains(s.RoomId))
+            .GroupBy(s => s.RoomId)
+            .Select(g => new
+            {
+                RoomId = g.Key,
+                AvgTemperature = g.Average(x => x.Temperature),
+                AvgElectricity = g.Average(x => x.Electricity)
+            })
+            .ToDictionaryAsync(
+                x => x.RoomId,
+                x => new RoomSensorAverages(x.AvgTemperature, x.AvgElectricity),
+                cancellationToken);
+    }
+
     public async Task<SensorData> AddAsync(SensorData data, CancellationToken cancellationToken = default)
     {
         _context.SensorData.Add(data);

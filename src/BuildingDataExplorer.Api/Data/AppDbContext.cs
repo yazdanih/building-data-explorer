@@ -41,6 +41,8 @@ public class AppDbContext : DbContext
             entity.Property(s => s.Temperature).IsRequired();
             entity.Property(s => s.Electricity).IsRequired();
             entity.Property(s => s.Timestamp).IsRequired();
+            entity.HasIndex(s => new { s.RoomId, s.Timestamp })
+                .IsDescending(false, true);
         });
     }
 }
