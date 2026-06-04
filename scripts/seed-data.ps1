@@ -12,31 +12,32 @@ SET NOCOUNT ON;
 DELETE FROM SensorData;
 DELETE FROM Rooms;
 DELETE FROM Buildings;
-DBCC CHECKIDENT ('SensorData', RESEED, 0);
-DBCC CHECKIDENT ('Rooms', RESEED, 0);
-DBCC CHECKIDENT ('Buildings', RESEED, 0);
 
 INSERT INTO Buildings (Name) VALUES
     (N'Kontorshuset Vasa'),
     (N'Logistikcentrum Hisingen'),
     (N'Bostadshus Eriksberg');
 
-INSERT INTO Rooms (BuildingId, Name) VALUES
-    (1, N'Reception'),
-    (1, N'Konferens A'),
-    (1, N'Konferens B'),
-    (1, N'IT-rum'),
-    (1, N'Öppet kontorslandskap'),
-    (2, N'Lastkaj 1'),
-    (2, N'Lastkaj 2'),
-    (2, N'Kylrum'),
-    (2, N'Kontor'),
-    (2, N'Verkstad'),
-    (3, N'Lägenhet 101'),
-    (3, N'Lägenhet 102'),
-    (3, N'Trapphus'),
-    (3, N'Teknikrum'),
-    (3, N'Arkiv');
+INSERT INTO Rooms (BuildingId, Name)
+SELECT b.Id, r.RoomName
+FROM (VALUES
+    (N'Kontorshuset Vasa', N'Reception'),
+    (N'Kontorshuset Vasa', N'Konferens A'),
+    (N'Kontorshuset Vasa', N'Konferens B'),
+    (N'Kontorshuset Vasa', N'IT-rum'),
+    (N'Kontorshuset Vasa', N'Öppet kontorslandskap'),
+    (N'Logistikcentrum Hisingen', N'Lastkaj 1'),
+    (N'Logistikcentrum Hisingen', N'Lastkaj 2'),
+    (N'Logistikcentrum Hisingen', N'Kylrum'),
+    (N'Logistikcentrum Hisingen', N'Kontor'),
+    (N'Logistikcentrum Hisingen', N'Verkstad'),
+    (N'Bostadshus Eriksberg', N'Lägenhet 101'),
+    (N'Bostadshus Eriksberg', N'Lägenhet 102'),
+    (N'Bostadshus Eriksberg', N'Trapphus'),
+    (N'Bostadshus Eriksberg', N'Teknikrum'),
+    (N'Bostadshus Eriksberg', N'Arkiv')
+) AS r(BuildingName, RoomName)
+INNER JOIN Buildings b ON b.Name = r.BuildingName;
 
 DECLARE @hours INT = 24;
 DECLARE @h INT = @hours;
@@ -69,4 +70,4 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host $result
-Write-Host "Seed complete (Arkiv has no sensor data — intentional)." -ForegroundColor Green
+Write-Host "Seed complete (Arkiv has no sensor data - intentional)." -ForegroundColor Green

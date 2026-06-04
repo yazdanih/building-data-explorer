@@ -28,7 +28,7 @@ for ($i = 1; $i -le $maxAttempts; $i++) {
         throw "SQL Server did not become ready within $($maxAttempts * 2) seconds."
     }
 
-    Write-Host "  Attempt $i/$maxAttempts — retrying in 2s..."
+    Write-Host "  Attempt $i/$maxAttempts - retrying in 2s..."
     Start-Sleep -Seconds 2
 }
 

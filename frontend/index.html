@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building Data Explorer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Building Data Explorer</h1>
+    <p class="subtitle">Mini digital twin - byggnader, rum och sensordata</p>
+  </header>
+
+  <main>
+    <section id="buildings-panel">
+      <h2>Byggnader</h2>
+      <ul id="buildings-list"></ul>
+    </section>
+
+    <section id="rooms-panel">
+      <h2 id="rooms-heading">Rum</h2>
+      <p id="rooms-placeholder" class="placeholder">Valj en byggnad for att se rum.</p>
+      <ul id="rooms-list" class="hidden"></ul>
+    </section>
+  </main>
+
+  <script type="module" src="dist/app.js"></script>
+</body>
+</html>
