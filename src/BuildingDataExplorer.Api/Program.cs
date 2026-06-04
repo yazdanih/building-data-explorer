@@ -1,3 +1,4 @@
+using BuildingDataExplorer.Api.BackgroundServices;
 using BuildingDataExplorer.Api.Data;
 using BuildingDataExplorer.Api.Repositories;
 using BuildingDataExplorer.Api.Services;
@@ -19,6 +20,7 @@ builder.Services.AddScoped<ISensorDataRepository, SensorDataRepository>();
 builder.Services.AddScoped<IBuildingService, BuildingService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<ISensorService, SensorService>();
+builder.Services.AddHostedService<SensorSimulator>();
 
 var app = builder.Build();
 

@@ -13,6 +13,14 @@ public class RoomRepository : IRoomRepository
         _context = context;
     }
 
+    public async Task<IReadOnlyList<Room>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Rooms
+            .OrderBy(r => r.BuildingId)
+            .ThenBy(r => r.Name)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<IReadOnlyList<Room>> GetByBuildingIdAsync(int buildingId, CancellationToken cancellationToken = default)
     {
         return await _context.Rooms
