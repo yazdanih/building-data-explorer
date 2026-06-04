@@ -1,0 +1,21 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+## IDE
+.idea/
+
+## Secrets / private notes
+INTERVIEW-NOTES.md
+.env
+.env.*
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Cursor assets (screenshots from chat)
+assets/

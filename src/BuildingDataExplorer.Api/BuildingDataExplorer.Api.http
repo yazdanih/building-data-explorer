@@ -1,0 +1,6 @@
+@BuildingDataExplorer.Api_HostAddress = http://localhost:5053
+
+GET {{BuildingDataExplorer.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
