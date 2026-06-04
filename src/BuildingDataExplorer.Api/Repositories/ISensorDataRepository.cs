@@ -19,5 +19,9 @@ public interface ISensorDataRepository
         IReadOnlyList<int> roomIds,
         CancellationToken cancellationToken = default);
 
+    Task<IReadOnlyDictionary<int, RoomSensorAverages>> GetLatestReadingsByRoomIdsAsync(
+        IReadOnlyList<int> roomIds,
+        CancellationToken cancellationToken = default);
+
     Task<SensorData> AddAsync(SensorData data, CancellationToken cancellationToken = default);
 }

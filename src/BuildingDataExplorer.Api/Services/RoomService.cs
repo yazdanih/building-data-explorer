@@ -22,12 +22,12 @@ public class RoomService : IRoomService
     {
         var rooms = await _roomRepository.GetByBuildingIdAsync(buildingId, cancellationToken);
         var roomIds = rooms.Select(r => r.Id).ToList();
-        var aggregates = await _sensorDataRepository.GetAveragesByRoomIdsAsync(roomIds, cancellationToken);
+        var latestReadings = await _sensorDataRepository.GetLatestReadingsByRoomIdsAsync(roomIds, cancellationToken);
         var summaries = new List<RoomSummaryDto>();
 
         foreach (var room in rooms)
         {
-            if (!aggregates.TryGetValue(room.Id, out var avg))
+            if (!latestReadings.TryGetValue(room.Id, out var latest))
             {
                 throw new InvalidOperationException("Sequence contains no elements.");
             }
@@ -35,9 +35,9 @@ public class RoomService : IRoomService
             summaries.Add(new RoomSummaryDto(
                 room.Id,
                 room.Name,
-                avg.Temperature,
-                avg.Electricity,
-                GetStatus(avg.Temperature)));
+                latest.Temperature,
+                latest.Electricity,
+                GetStatus(latest.Temperature)));
         }
 
         return summaries;
