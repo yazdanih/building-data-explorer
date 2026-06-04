@@ -35,6 +35,7 @@ function statusLabel(status: string): string {
     case "hot": return "Varmt";
     case "cold": return "Kallt";
     case "normal": return "Normalt";
+    case "unknown": return "Ingen data";
     default: return "Okant";
   }
 }

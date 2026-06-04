@@ -29,7 +29,8 @@ public class RoomService : IRoomService
         {
             if (!latestReadings.TryGetValue(room.Id, out var latest))
             {
-                throw new InvalidOperationException("Sequence contains no elements.");
+                summaries.Add(new RoomSummaryDto(room.Id, room.Name, null, null, "unknown"));
+                continue;
             }
 
             summaries.Add(new RoomSummaryDto(
