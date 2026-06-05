@@ -36,7 +36,7 @@ function statusLabel(status: string): string {
     case "cold": return "Kallt";
     case "normal": return "Normalt";
     case "unknown": return "Ingen data";
-    default: return "Okant";
+    default: return "Okänt";
   }
 }
 
@@ -68,7 +68,7 @@ async function selectBuilding(building: Building, button: HTMLButtonElement): Pr
   button.classList.add("active");
 
   roomsList.innerHTML = "";
-  roomsPlaceholder.textContent = "Hamtar rum...";
+  roomsPlaceholder.textContent = "Hämtar rum...";
   roomsPlaceholder.classList.remove("hidden");
   roomsList.classList.add("hidden");
 
@@ -76,14 +76,14 @@ async function selectBuilding(building: Building, button: HTMLButtonElement): Pr
     const rooms = await fetchJson<RoomSummary[]>(`${API_BASE}/api/buildings/${building.id}/rooms`);
     renderRooms(building.name, rooms);
   } catch (err) {
-    roomsPlaceholder.textContent = `Kunde inte hamta rum: ${err instanceof Error ? err.message : err}`;
+    roomsPlaceholder.textContent = `Kunde inte hämta rum: ${err instanceof Error ? err.message : err}`;
     roomsPlaceholder.classList.remove("hidden");
     roomsList.classList.add("hidden");
   }
 }
 
 async function loadBuildings(): Promise<void> {
-  buildingsList.innerHTML = "<li class='placeholder'>Hamtar byggnader...</li>";
+  buildingsList.innerHTML = "<li class='placeholder'>Hämtar byggnader...</li>";
 
   try {
     const buildings = await fetchJson<Building[]>(`${API_BASE}/api/buildings`);
@@ -107,7 +107,7 @@ async function loadBuildings(): Promise<void> {
       await selectBuilding(buildings[0], firstButton);
     }
   } catch (err) {
-    buildingsList.innerHTML = `<li class="error">Kunde inte hamta byggnader: ${err instanceof Error ? err.message : err}</li>`;
+    buildingsList.innerHTML = `<li class="error">Kunde inte hämta byggnader: ${err instanceof Error ? err.message : err}</li>`;
   }
 }
 

@@ -20,7 +20,7 @@ function statusLabel(status) {
         case "cold": return "Kallt";
         case "normal": return "Normalt";
         case "unknown": return "Ingen data";
-        default: return "Okant";
+        default: return "Okänt";
     }
 }
 function renderRooms(buildingName, rooms) {
@@ -46,7 +46,7 @@ async function selectBuilding(building, button) {
     document.querySelectorAll(".building-item button").forEach((el) => el.classList.remove("active"));
     button.classList.add("active");
     roomsList.innerHTML = "";
-    roomsPlaceholder.textContent = "Hamtar rum...";
+    roomsPlaceholder.textContent = "Hämtar rum...";
     roomsPlaceholder.classList.remove("hidden");
     roomsList.classList.add("hidden");
     try {
@@ -54,13 +54,13 @@ async function selectBuilding(building, button) {
         renderRooms(building.name, rooms);
     }
     catch (err) {
-        roomsPlaceholder.textContent = `Kunde inte hamta rum: ${err instanceof Error ? err.message : err}`;
+        roomsPlaceholder.textContent = `Kunde inte hämta rum: ${err instanceof Error ? err.message : err}`;
         roomsPlaceholder.classList.remove("hidden");
         roomsList.classList.add("hidden");
     }
 }
 async function loadBuildings() {
-    buildingsList.innerHTML = "<li class='placeholder'>Hamtar byggnader...</li>";
+    buildingsList.innerHTML = "<li class='placeholder'>Hämtar byggnader...</li>";
     try {
         const buildings = await fetchJson(`${API_BASE}/api/buildings`);
         buildingsList.innerHTML = "";
@@ -80,7 +80,7 @@ async function loadBuildings() {
         }
     }
     catch (err) {
-        buildingsList.innerHTML = `<li class="error">Kunde inte hamta byggnader: ${err instanceof Error ? err.message : err}</li>`;
+        buildingsList.innerHTML = `<li class="error">Kunde inte hämta byggnader: ${err instanceof Error ? err.message : err}</li>`;
     }
 }
 loadBuildings();
